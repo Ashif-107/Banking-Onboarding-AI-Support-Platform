@@ -91,14 +91,14 @@ public class GroqService(IHttpClientFactory httpFactory, IConfiguration config, 
             ? $"\n\nRelevant policy context:\n{string.Join("\n---\n", policyChunks)}"
             : "";
 
-        var systemPrompt = $"""
+        var systemPrompt = $$"""
             You are an expert banking support agent. Generate 3 response drafts for the customer's issue.
-            Return ONLY valid JSON:{context}
-            {{
+            Return ONLY valid JSON:{{context}}
+            {
               "formal": "Professional, formal tone response (2-3 paragraphs)",
               "empathetic": "Warm, understanding tone response acknowledging the customer's frustration",
               "concise": "Brief, direct response in 2-3 sentences"
-            }}
+            }
             All responses must be accurate, compliant with banking regulations, and not disclose internal policies.
             """;
 

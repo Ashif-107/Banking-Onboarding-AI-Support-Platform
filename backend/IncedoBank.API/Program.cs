@@ -151,11 +151,10 @@ try
     });
 
     // ---------------------------------------------------------------
-    // Controllers + OpenAPI
+    // Controllers
     // ---------------------------------------------------------------
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddOpenApi();
 
     // ---------------------------------------------------------------
     // Health Checks
@@ -172,9 +171,6 @@ try
 
     if (app.Environment.IsDevelopment())
     {
-        app.MapOpenApi();
-        app.MapScalarApiReference("/api-docs");
-
         // Auto-migrate database in development
         using var scope = app.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();

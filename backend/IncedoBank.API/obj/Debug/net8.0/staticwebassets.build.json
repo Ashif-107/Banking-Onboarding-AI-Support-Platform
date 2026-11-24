@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "fICWLyPXPHCmGaVTQERVrCd1u92+D9kdo5ePz7QTv00=",
+  "Source": "IncedoBank.API",
+  "BasePath": "_content/IncedoBank.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
