@@ -1,0 +1,44 @@
+# IncedoBank — Render.com deployment config
+# Free tier: 750 hrs/month, 512MB RAM, .NET 8 support
+
+services:
+  - type: web
+    name: incedo-bank-api
+    runtime: dotnet
+    region: singapore          # closest to India
+    plan: free
+    buildCommand: |
+      export DOTNET_ROOT=$HOME/.dotnet
+      dotnet publish backend/IncedoBank.API/IncedoBank.API.csproj -c Release -o ./publish
+    startCommand: dotnet ./publish/IncedoBank.API.dll
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ASPNETCORE_URLS
+        value: http://0.0.0.0:10000
+      - key: ConnectionStrings__DefaultConnection
+        sync: false          # set in Render dashboard
+      - key: ConnectionStrings__Redis
+        sync: false
+      - key: Clerk__Authority
+        sync: false
+      - key: Clerk__Issuer
+        sync: false
+      - key: Clerk__JwksUrl
+        sync: false
+      - key: Groq__ApiKey
+        sync: false
+      - key: HuggingFace__ApiKey
+        sync: false
+      - key: Cloudflare__R2__AccountId
+        sync: false
+      - key: Cloudflare__R2__AccessKeyId
+        sync: false
+      - key: Cloudflare__R2__SecretAccessKey
+        sync: false
+      - key: Cloudflare__R2__BucketName
+        value: incedo-bank-docs
+      - key: Resend__ApiKey
+        sync: false

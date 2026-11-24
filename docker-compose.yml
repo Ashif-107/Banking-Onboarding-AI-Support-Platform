@@ -1,0 +1,91 @@
+version: "3.9"
+
+# ============================================================
+# IncedoBank — Local Development Stack
+# Services: PostgreSQL + Redis + Meilisearch
+# Usage: docker-compose up -d
+# ============================================================
+
+services:
+  # -----------------------------------------------------------
+  # PostgreSQL (mimics Neon free tier locally)
+  # -----------------------------------------------------------
+  postgres:
+    image: pgvector/pgvector:pg16    # includes pgvector extension
+    container_name: incedo_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: incedobank
+      POSTGRES_USER: incedo_user
+      POSTGRES_PASSWORD: incedo_local_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U incedo_user -d incedobank"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -----------------------------------------------------------
+  # Redis (mimics Upstash free tier locally)
+  # -----------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: incedo_redis
+    restart: unless-stopped
+    command: redis-server --requirepass incedo_redis_pass --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "incedo_redis_pass", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -----------------------------------------------------------
+  # Meilisearch (Free OSS — ticket search)
+  # -----------------------------------------------------------
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    container_name: incedo_meilisearch
+    restart: unless-stopped
+    environment:
+      MEILI_MASTER_KEY: incedo_meili_master_key
+      MEILI_ENV: development
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilisearch_data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -----------------------------------------------------------
+  # pgAdmin (optional DB GUI — remove if not needed)
+  # -----------------------------------------------------------
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: incedo_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@incedo.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - tools                        # run with: docker-compose --profile tools up -d
+
+volumes:
+  postgres_data:
+  redis_data:
+  meilisearch_data:

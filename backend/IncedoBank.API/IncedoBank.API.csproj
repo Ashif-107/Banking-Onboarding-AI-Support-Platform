@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>IncedoBank.API</RootNamespace>
+    <AssemblyName>IncedoBank.API</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- EF Core + PostgreSQL -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+    <PackageReference Include="Pgvector.EntityFrameworkCore" Version="0.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <!-- SignalR (real-time WebSocket) -->
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+
+    <!-- Redis (Upstash-compatible via StackExchange.Redis) -->
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.11" />
+
+    <!-- JWT Auth (Clerk JWT verification) -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+
+    <!-- Cloudflare R2 (AWS S3-compatible SDK) -->
+    <PackageReference Include="AWSSDK.S3" Version="3.7.414.5" />
+
+    <!-- PDF Generation (QuestPDF — free, OSS) -->
+    <PackageReference Include="QuestPDF" Version="2024.10.4" />
+
+    <!-- Email (Resend via HTTP) -->
+    <PackageReference Include="Resend" Version="1.1.0" />
+
+    <!-- Validation -->
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+
+    <!-- JSON -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+    <!-- Logging -->
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+
+    <!-- Health Checks -->
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
+    <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.2" />
+
+    <!-- OpenAPI -->
+    <PackageReference Include="Scalar.AspNetCore" Version="2.4.0" />
+
+    <!-- Rate Limiting -->
+    <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
+  </ItemGroup>
+
+</Project>

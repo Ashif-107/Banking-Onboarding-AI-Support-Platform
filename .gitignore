@@ -1,0 +1,43 @@
+# ============================================================
+# IncedoBank — Root .gitignore
+# ============================================================
+
+# Environment variables — NEVER commit secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.pnpm-store/
+
+# .NET
+backend/bin/
+backend/obj/
+backend/**/*.user
+backend/**/*.suo
+backend/.vs/
+*.nupkg
+
+# IDE
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+dist/
+build/
+publish/
